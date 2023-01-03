@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  frontend:
+    restart: on-failure:2
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: vue3-element
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - ./:/home/node/app
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    command: yarn dev

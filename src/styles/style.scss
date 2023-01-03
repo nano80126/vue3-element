@@ -1,0 +1,150 @@
+$body-font-family: 'consolas', '微軟正黑體';
+$title-font: 'consolas', '微軟正黑體';
+
+:root {
+	--info-color: #409eff;
+	--success-color: #67c23a;
+	--warngin-color: #e6a23c;
+	--error-color: #f56c6c;
+	--secondary-color: #909399;
+}
+// .v-application {
+// 	.title,
+// 	.subtitle-1,
+// 	.subtitle-2 {
+// 		font-family: $title-font, sans-serif !important;
+// 	}
+// }
+
+html,
+body {
+	margin: 0;
+	font-size: 16px;
+	font-family: consolas, '微軟正黑體', Helvetica, Arial, 'LiHei Pro', '黑體-繁', sans-serif;
+	user-select: none;
+}
+
+#app {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	// background-color: red;
+}
+
+$tAlign: left, center, right;
+@each $align in $tAlign {
+	.text-#{$align} {
+		text-align: $align;
+	}
+}
+
+@for $i from 1 through 4 {
+	.w-#{($i * 25)} {
+		width: $i * 25%;
+	}
+
+	.h-#{($i * 25)} {
+		height: $i * 25%;
+	}
+
+	.opa-#{($i * 25)} {
+		opacity: ($i * 0.25);
+	}
+}
+
+.min-scroll {
+	&.x {
+		overflow-x: auto;
+		overflow-y: hidden;
+	}
+
+	&.y {
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+
+	&::-webkit-scrollbar {
+		width: 0.2rem;
+		height: 0.2rem;
+	}
+
+	&::-webkit-scrollbar-track {
+		border-radius: 0.2rem;
+		background: rgb(75 150 75 / 6%);
+		box-shadow: inset 0 0 5px rgb(75 150 75 / 30%);
+	}
+
+	&::-webkit-scrollbar-thumb {
+		border-radius: 0.2rem;
+		background: rgb(200 200 200 / 32%);
+		box-shadow: inset 0 0 10px rgb(100 100 100 / 75%);
+	}
+
+	&.scroll-darken::-webkit-scrollbar-thumb {
+		box-shadow: inset 0 0 10px rgb(25 25 25 / 75%);
+	}
+
+	&.scroll-lighten::-webkit-scrollbar-thumb {
+		box-shadow: inset 0 0 10px rgb(150 150 150 / 75%);
+	}
+
+	&.primary-scroll {
+		&::-webkit-scrollbar-thumb {
+			box-shadow: inset 0 0 10px rgb(35 35 200 / 75%);
+		}
+
+		&.scroll-darken::-webkit-scrollbar-thumb {
+			box-shadow: inset 0 0 10px rgb(35 35 150 / 75%);
+		}
+	}
+
+	&.info-scroll {
+		&::-webkit-scrollbar-thumb {
+			box-shadow: inset 0 0 10px rgb(35 135 255 / 75%);
+		}
+
+		&.scroll-darken::-webkit-scrollbar-thumb {
+			box-shadow: inset 0 0 10px rgb(35 75 200 / 75%);
+		}
+	}
+
+	&.warning-scroll {
+		&::-webkit-scrollbar-thumb {
+			box-shadow: inset 0 0 10px rgb(235 200 35 / 75%);
+		}
+
+		&.scroll-darken::-webkit-scrollbar-thumb {
+			box-shadow: inset 0 0 10px rgb(180 150 187 / 75%);
+		}
+	}
+
+	&.error-scroll {
+		&::-webkit-scrollbar-thumb {
+			box-shadow: inset 0 0 10px rgb(200 35 35 / 75%);
+		}
+
+		&.scroll-darken::-webkit-scrollbar-thumb {
+			box-shadow: inset 0 0 10px rgb(150 35 35 / 75%);
+		}
+	}
+
+	&.success-scroll {
+		&::-webkit-scrollbar-thumb {
+			box-shadow: inset 0 0 10px rgb(35 200 35 / 75%);
+		}
+
+		&.scroll-darken::-webkit-scrollbar-thumb {
+			box-shadow: inset 0 0 10px rgb(35 150 35 / 75%);
+		}
+	}
+
+	&.purple-scrol {
+		&::-webkit-scrollbar-thumb {
+			box-shadow: inset 0 0 10px rgba($color: purple, $alpha: 65%);
+		}
+
+		&.scroll-darken::-webkit-scrollbar-thumb {
+			box-shadow: inset 0 0 10px rgba($color: purple, $alpha: 85%);
+		}
+	}
+}
