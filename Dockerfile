@@ -4,4 +4,6 @@ WORKDIR /home/node/app
 
 COPY package*.json yarn.lock ./
 
-CMD [ "yarn", "install" ]
+RUN yarn install
+
+COPY . .

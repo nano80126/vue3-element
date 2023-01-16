@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<ElCard class="px-0">
+		<ElCard v-if="true" class="px-0">
 			<!-- <template #header>
 				<span>Header</span>
 			</template> -->
 
 			<ElRow class="mx-n2 mt-n2" :gutter="0" justify="start" align="middle">
-				<ElInput v-model="searchSong" class="el-col" placeholder="曲名">
+				<ElInput v-model="searchTitle" class="el-col" placeholder="曲名">
 					<template #prefix>
 						<font-awesome-icon :icon="['fas', 'fa-music']" size="md"></font-awesome-icon>
 					</template>
@@ -36,11 +36,17 @@
 							<template #header>
 								<div class="mx-n2 card-header">
 									<span class="">{{ card.data.title }}</span>
+									<!-- <span> -->
+
+									<span>
+										<font-awesome-icon :icon="['fas', 'fa-music']"></font-awesome-icon>
+									</span>
+									<!-- </span> -->
 								</div>
 							</template>
 							{{ card.data.id }}
 
-							<ElDivider class="mx-n5" content-position="center"></ElDivider>
+							<ElDivider class="w-50 my-0" style="margin: 0px; margin-left: -20px; width: calc(100% + 40px)"></ElDivider>
 
 							123
 						</ElCard>
@@ -49,6 +55,8 @@
 			</div>
 			<!-- <span class="mx-n2 card-header">123555555555555555555555555555555555555555555555555555555</span> -->
 		</ElCard>
+
+		<ElCard v-else> // </ElCard>
 
 		<!-- <ElInput v-model="searchSong" class="radius" style="border-radius: 20px"></ElInput>
 
@@ -61,23 +69,25 @@
 </template>
 
 <script setup lang="ts">
+	import { SearchLyrcisDto, SearchLyricsResponseDto } from '@/types/search';
 	import { useVirtualList } from '@vueuse/core';
 
 	const webHeight: number = inject('webHeight', window.innerHeight);
-	const searchSong = ref('怪物');
+	const searchTitle = ref('');
 	const searchArtist = ref('');
-	const canSearch = computed(() => searchSong.value != '' || searchArtist.value != '' || process.env.NODE_ENV == 'development_dep');
+	const canSearch = computed(() => searchTitle.value != '' || searchArtist.value != '' || process.env.NODE_ENV == 'development_dep');
 
-	const lyricsCards = ref([]);
+	const lyricsCards = ref(new Array<SearchLyricsResponseDto>());
 	// const lyricCards = ref(Array<LyricsCrawled>());
 
-	const getLyrics = (song?: string, artist?: string) => {
+	const getLyrics = (title?: string, artist?: string) => {
+		const param: SearchLyrcisDto = {
+			title: title || searchTitle.value,
+			artist: artist || searchArtist.value
+		};
 		axios
 			.get('http://localhost:8888/api/lyrics', {
-				params: {
-					song: song || searchSong.value,
-					aritest: artist || searchArtist.value
-				}
+				params: param
 			})
 			.then((res) => {
 				console.log(res);
@@ -91,10 +101,10 @@
 	});
 
 	const searchLyrics = () => {
-		let song = searchSong.value;
+		let song = searchTitle.value;
 		let artist = searchArtist.value;
 
-		console.log(searchSong.value, searchArtist.value);
+		console.log(searchTitle.value, searchArtist.value);
 	};
 
 	// const filterItems = computed(() => {
@@ -130,23 +140,23 @@
 
 	.card-header {
 		position: relative;
-		display: inline-flex;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 		width: calc(100% + 16px);
 		// background-color: blue;
 
-		> span {
-			// position: absolute;
-			// left: 0;
-			// top: 0;
+		> span:first-child {
 			display: inline-block;
 			overflow: hidden;
 			background-color: red;
 			white-space: nowrap;
 			text-overflow: ellipsis;
-			// width: 80%;
+			width: calc(100% - 32px);
 		}
-	}
 
-	span.card-header {
+		> span:nth-child(2) {
+			background-color: red;
+		}
 	}
 </style>

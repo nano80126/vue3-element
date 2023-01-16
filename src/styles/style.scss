@@ -38,7 +38,7 @@ $tAlign: left, center, right;
 	}
 }
 
-@for $i from 1 through 4 {
+@for $i from 1 through 8 {
 	.w-#{($i * 25)} {
 		width: $i * 25%;
 	}

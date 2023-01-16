@@ -1,17 +1,18 @@
 <template>
 	<div>
 		<ElRow :gutter="20" justify="start">
-			<ElCol :span="6" class="blue">
+			<ElCol :span="6" style="background-color: #33559988">
 				<!-- :style="{
 					'max-width': `${firstColMaxWidth}px`
 				}" -->
 				<SearchCards />
 			</ElCol>
 			<ElCol :span="18" style="background-color: #33998855">
-				<ElButton @click="testPost">測試 POST</ElButton>
+				<!-- <ElButton @click="testPost">測試 POST</ElButton>
 				<ElButton @click="testDelete">測試 DELETE</ElButton>
 				<ElButton @click="testPut">測試 PUT</ElButton>
-				<ElButton @click="testPatch">測試 PATCH</ElButton>
+				<ElButton @click="testPatch">測試 PATCH</ElButton> -->
+				<SearchBrowser />
 			</ElCol>
 		</ElRow>
 
