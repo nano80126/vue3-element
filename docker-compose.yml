@@ -7,9 +7,10 @@ services:
       context: ./
       dockerfile: Dockerfile
     container_name: vue3-element
+    image: docker-vue3
     environment:
       - NODE_ENV=development
-      - CHOKIDAR_USEPOLLING=true
+      # - CHOKIDAR_USEPOLLING=true # use this variable if put files in windows, or HMR will not work 
     volumes:
       - ./:/home/node/app
     expose:

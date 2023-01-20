@@ -73,8 +73,8 @@
 	import { useVirtualList } from '@vueuse/core';
 
 	const webHeight: number = inject('webHeight', window.innerHeight);
-	const searchTitle = ref('');
-	const searchArtist = ref('');
+	const searchTitle = ref('怪物');
+	const searchArtist = ref('YOASOBI');
 	const canSearch = computed(() => searchTitle.value != '' || searchArtist.value != '' || process.env.NODE_ENV == 'development_dep');
 
 	const lyricsCards = ref(new Array<SearchLyricsResponseDto>());

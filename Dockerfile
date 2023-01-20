@@ -2,8 +2,8 @@ FROM node:18-alpine
 
 WORKDIR /home/node/app
 
-COPY package*.json yarn.lock ./
+COPY package*.json ./
 
 RUN yarn install
 
-COPY . .
+# CMD [ "yarn", "install" ]
