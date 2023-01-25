@@ -20,3 +20,48 @@ export interface CrawlLyricsResponseDto {
 	lyrcisUrl: string;
 	lyricsContent: string;
 }
+
+interface ThumbnailDto {
+    url: string;
+    width: number;
+    height:number;
+}
+
+interface SnippetDto {
+    channelId :string;
+    channelTitle: string;
+    description: string;
+    liveBroadcastContent:string;
+    publishTime:string;
+    publishedAt:string;
+    thumbnails: {
+        default: ThumbnailDto;
+        high:ThumbnailDto;
+        medium : ThumbnailDto;
+    }
+    title:string;
+}
+
+export interface YouTubeSearchListResponseItemDto {
+    etag: string;
+    id : {
+        kind:string;
+        videoId : string;
+    }
+    kind: string;
+    snippet: SnippetDto;
+}
+
+/** */
+export interface YouTubeSearchListResponseDto {
+    kind : string;
+    etag : string;
+    nextPageToken:string;
+    prevPageToken:string;
+    regionCode:string;
+    pageInfo: {
+        totalResults:number;
+        resultsPerPage:number;
+    }
+    items: YouTubeSearchListResponseItemDto[];
+}

@@ -1,104 +1,117 @@
 <template>
-	<ElCard class="px-0"> </ElCard>
+	<ElCard class="px-0" :style="{ height: `${webHeight - 80}px` }">
+		<ElRow justify="center" align="middle">
+			<ElCol :span="6">
+				<ElInput v-model="searchQuery" class="ml-auto" placeholder="搜尋" @keyup.enter="searchYouTube">
+					<template #prefix>
+						<font-awesome-icon :icon="['fab', 'fa-youtube']"></font-awesome-icon>
+					</template>
+					<template #append>
+						<ElButton class="radius" @click="searchYouTube">
+							<font-awesome-icon :icon="['fas', 'fa-search']"></font-awesome-icon>
+						</ElButton>
+					</template>
+				</ElInput>
+			</ElCol>
 
-	<v-card :height="webHeight - 80" class="">
-		<v-toolbar color="primary" dark extended flat>
-			<v-app-bar-nav-icon></v-app-bar-nav-icon>
-			<v-spacer />
-		</v-toolbar>
+			<ElCol class="px-3 pagination" :span="6">
+				<ElButton circle>
+					<font-awesome-icon :icon="['fas', 'fa-search']"></font-awesome-icon>
+				</ElButton>
+				<ElButton circle>
+					<font-awesome-icon :icon="['fas', 'fa-search']"></font-awesome-icon>
+				</ElButton>
+			</ElCol>
 
-		<!-- <v-card class="ml-auto col" style="margin-top: -48px"> -->
-		<v-row no-gutters align-content="center" justify="end">
-			<v-col cols="auto" class="mx-3">
-				<v-toolbar class="ml-auto" color="transparent" density="compact" flat style="margin-top: -48px; min-width: 320px">
-					<v-text-field
-						v-model="searchQuery"
-						class="my-0 pr-0"
-						density="compact"
-						variant="solo"
-						single-line
-						hide-details
-						placeholder="搜尋"
-						prepend-inner-icon="mdi-youtube"
-						append-inner-icon="mdi-magnify"
-						style="min-width: 320px"
-						@keyup.enter="search"
-						@click:append-inner="search"
-					/>
-				</v-toolbar>
-			</v-col>
-		</v-row>
+			<ElCol class="" :span="12" style="background-color: #ffaaff88"> {{ nextToken }} </ElCol>
 
-		<div v-bind="containerProps" class="my-3 min-scroll primary-scroll" style="overflow-y: scroll" :style="{ height: `${webHeight - 216}px` }">
-			<div v-bind="wrapperProps" style="position: relative">
-				<!-- <transition name="fade">
-					<div v-if="list.length > 0"> -->
-				<transition-group name="fade">
-					<v-card v-for="(card, index) in list" :key="`card1${index}`" class="mx-auto mb-3 youtube-card" variant="outlined" color="grey">
-						<v-row no-gutters>
-							<v-col cols="6">
-								<v-img
-									class="mr-auto"
-									:src="card.data.snippet.thumbnails.medium.url"
-									:height="card.data.snippet.thumbnails.medium.height * 1.2"
-									:width="card.data.snippet.thumbnails.medium.width * 1.2"
-									cover
-								/>
-							</v-col>
-							<v-col cols="6" class="align-self-end">
-								<v-card-title class="mr-4" style="white-space: wrap">{{ card.data.snippet.title }}</v-card-title>
+			<ElDivider style="--el-divider-margin: 12px 0 0 0"></ElDivider>
 
-								<v-card-subtitle>{{ card.data.snippet.channelTitle }}</v-card-subtitle>
+			<!-- 163 -->
+			<ElCol class="browser-content mt-3" :span="24">
+				<RecycleScroller class="scroller min-scroll info-scroll" :items="searchResults" :item-size="218" key-field="etag" v-slot="{ item }" :style="{ height: `${webHeight - 163}px` }">
+					<ElCard class="youtube-card radius" shadow="never">
+						<ElRow :gutter="12" align="top" justify="center">
+							<ElCol class="card-image" :span="9">
+								<el-image class="h-100" :src="item.snippet.thumbnails.medium.url" fit="contain" />
+							</ElCol>
 
-								<v-card-action class="mt-auto">
-									<v-btn size="small" color="surface-variant" variant="text" icon="mdi-heart" />
-									<v-btn size="small" color="surface-variant" variant="text" icon="mdi-heart" />
-									<v-btn size="small" color="surface-variant" variant="text" icon="mdi-heart" />
-								</v-card-action>
-							</v-col>
-						</v-row>
-					</v-card>
-				</transition-group>
-				<!-- </div>
-				</transition> -->
-			</div>
-		</div>
+							<ElCol class="card-content" :span="15">
+								<p class="title">{{ item.snippet.title }}</p>
+								<ElDivider style="margin: 0"></ElDivider>
+								<span class="channel text-right">{{ item.snippet.channelTitle }}</span>
+								<!-- <div>{{ item.snippet.description }}</div> -->
+								<!-- <ElDivider style="margin-top: auto"></ElDivider> -->
+								<div class="action mt-auto" align="middle" justify="end">
+									<!-- 取得連結 -->
+									<!-- 加入 -->
+									<!-- 瀏覽器開啟 -->
+									<ElButton circle style="margin-left: 20px">
+										<font-awesome-icon :icon="['fas', 'fa-music']"></font-awesome-icon>
+									</ElButton>
 
-		<!-- </v-col>
-		</v-row> -->
-		<!-- </v-card> -->
-	</v-card>
+									<ElButton circle style="margin-left: 20px">
+										<font-awesome-icon :icon="['fas', 'fa-music']"></font-awesome-icon>
+									</ElButton>
+
+									<ElButton circle style="margin-left: 20px">
+										<font-awesome-icon :icon="['fas', 'fa-magnifying-glass']"></font-awesome-icon>
+									</ElButton>
+								</div>
+							</ElCol>
+						</ElRow>
+					</ElCard>
+				</RecycleScroller>
+			</ElCol>
+
+			<!-- <ElDivider style="--el-divider-margin: 0px 0px"></ElDivider>   -->
+		</ElRow>
+	</ElCard>
 </template>
 
 <script setup lang="ts">
-	import { inject, ref, reactive, nextTick, computed } from 'vue';
-	import { useVirtualList } from '@vueuse/core';
-	import axios from 'axios';
-	import { YouTubeSearchResult } from '@/types/youtube';
+	import { inject, ref, nextTick, VueElement } from 'vue';
+	import { YouTubeSearchListResponseDto, YouTubeSearchListResponseItemDto } from '@/types/search';
+	import { ElButtonGroup } from 'element-plus';
 
+	const webWidth: number = inject('webWidth', window.innerWidth);
 	const webHeight: number = inject('webHeight', window.innerHeight);
-
 	/**YouTube API 搜尋字串 */
 	const searchQuery = ref('');
+	const nextToken = ref('');
 	/**YouTube API 搜尋結果 */
-	let searchResults = ref(Array<YouTubeSearchResult>());
-	/**圖片緩存用陣列*/
-	const imageBuffer = [];
+	let searchResults = ref(Array<YouTubeSearchListResponseItemDto>());
 
-	const allItems = ref(new Array<number>());
-	const filter = computed(() => {
-		return allItems.value;
+	// let youTube: YT.youtube_v3.Youtube;
+
+	onMounted(async () => {
+		//
 	});
 
-	const { list, containerProps, wrapperProps } = useVirtualList(searchResults, {
-		itemHeight: 228,
-		overscan: 8
-	});
-
-	// const { list, containerProps, wrapperProps } = useVirtualList(filter, {
-	// 	itemHeight: 96,
-	// 	overscan: 8
-	// });
+	const searchYouTube = async (event: Event) => {
+		axios
+			.get('https://youtube.googleapis.com/youtube/v3/search', {
+				responseType: 'json',
+				params: {
+					q: searchQuery.value,
+					part: 'snippet',
+					key: import.meta.env.VITE_YT_API,
+					maxResults: 20,
+					type: 'video',
+					pageToken: nextToken.value || ''
+				}
+			})
+			.then((res) => {
+				const { items } = res.data as YouTubeSearchListResponseDto;
+				searchResults.value = items;
+				nextToken.value = res.data.nextPageToken;
+				console.log(res);
+				console.log(items);
+			})
+			.finally(() => {
+				(event.target as VueElement).blur();
+			});
+	};
 
 	const search = async () => {
 		axios.get('http://localhost:8888/api/searchYouTube').then(async (res) => {
@@ -106,20 +119,78 @@
 			await nextTick();
 
 			searchResults.value = res.data;
-
-			// res.data.forEach((element: YouTubeSearchResult, i: number) => {
-			// 	// setTimeout(() => {
-			// 	searchResults.value.push(element);
-			// 	// }, i * 200);
-			// });
 		});
 	};
 </script>
 
 <style lang="scss" scoped>
+	.pagination {
+		.el-button {
+			margin: 0;
+		}
+	}
+
 	.youtube-card {
-		width: 60%;
-		height: 216px;
+		display: flex;
+		position: relative;
+		min-height: 206px;
+		height: 100%;
+		width: 98%;
+		// background-color: red;
+
+		@media screen and (min-width: 1600px) {
+			width: 80%;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		.el-row {
+			// background-color: yellow;
+			position: absolute;
+			height: calc(100% - 24px);
+			width: calc(100% - 12px);
+		}
+	}
+
+	.card-image {
+		display: flex;
+		align-self: center;
+
+		.el-image {
+			position: absolute;
+			margin: auto;
+			top: 0;
+			height: 180px;
+		}
+	}
+
+	.card-content {
+		display: flex;
+		flex-direction: column;
+
+		.title {
+			padding: 0 0;
+			font-weight: bold;
+		}
+
+		.el-divider--horizontal {
+			margin: 0;
+
+			&:last-child {
+				margin-top: auto;
+			}
+		}
+
+		.channel {
+			margin-top: 12px;
+			padding: 0 12px;
+			text-align: right;
+			font-weight: normal;
+		}
+
+		.action {
+			// margin-top: auto;
+		}
 	}
 
 	.fade-enter-active {

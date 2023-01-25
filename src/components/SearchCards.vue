@@ -1,84 +1,78 @@
 <template>
-	<div>
-		<ElCard v-if="true" class="px-0">
-			<!-- <template #header>
-				<span>Header</span>
-			</template> -->
+	<ElCard v-if="true" class="px-0" :style="{ height: `${webHeight - 128}px` }" style="position: relative">
+		<span class="span-center">{{ webHeight }}</span>
 
-			<ElRow class="mx-n2 mt-n2" :gutter="0" justify="start" align="middle">
-				<ElInput v-model="searchTitle" class="el-col" placeholder="曲名">
-					<template #prefix>
-						<font-awesome-icon :icon="['fas', 'fa-music']" size="md"></font-awesome-icon>
-					</template>
-				</ElInput>
-				<ElInput v-model="searchArtist" class="el-col ml-3" placeholder="歌手名">
-					<template #prefix>
-						<font-awesome-icon :icon="['fas', 'fa-microphone']"></font-awesome-icon>
-					</template>
-				</ElInput>
-				<ElButton class="ml-3" circle :disabled="!canSearch" @click="getLyrics()">
-					<font-awesome-icon :icon="['fas', 'fa-magnifying-glass']"></font-awesome-icon>
-				</ElButton>
-			</ElRow>
+		<ElRow class="" :gutter="0" justify="start" align="middle">
+			<ElInput v-model="searchTitle" class="el-col" placeholder="曲名">
+				<template #prefix>
+					<font-awesome-icon :icon="['fas', 'fa-music']"></font-awesome-icon>
+				</template>
+			</ElInput>
+			<ElInput v-model="searchArtist" class="el-col ml-3" placeholder="歌手名">
+				<template #prefix>
+					<font-awesome-icon :icon="['fas', 'fa-microphone']"></font-awesome-icon>
+				</template>
+			</ElInput>
+			<ElButton class="ml-3" circle :disabled="!canSearch" @click="getLyrics()">
+				<font-awesome-icon :icon="['fas', 'fa-magnifying-glass']"></font-awesome-icon>
+			</ElButton>
+		</ElRow>
 
-			<ElRow class="mx-n2 mt-3">
-				<ElTag type="warning" class="mr-3" effect="dark">搜尋紀錄</ElTag>
+		<ElRow class="mt-3">
+			<ElTag type="warning" class="mr-3" effect="dark">搜尋紀錄</ElTag>
 
-				<ElTag v-for="(item, i) in 5" :key="`tag${i}`" class="mr-3 history-tag" round effect="dark" @click="getLyrics('123', undefined)">
-					{{ item }}
-				</ElTag>
-			</ElRow>
+			<ElTag v-for="(item, i) in 5" :key="`tag${i}`" class="mr-3 history-tag" round effect="dark" @click="getLyrics('123', undefined)">
+				{{ item }}
+			</ElTag>
+		</ElRow>
 
-			<div class="mx-n2 mt-3">
-				<div v-bind="containerProps" class="min-scroll primary-scroll" style="overflow-y: auto; height: 720px">
-					<div v-bind="wrapperProps">
-						<ElCard v-for="(card, idx) in list" :key="`card${idx}`" class="mb-3">
-							<template #header>
-								<div class="mx-n2 card-header">
-									<span class="">{{ card.data.title }}</span>
-									<!-- <span> -->
+		<div class="mt-3">
+			<div v-bind="containerProps" class="min-scroll primary-scroll" style="overflow-y: auto; height: 720px">
+				<div v-bind="wrapperProps">
+					<ElCard v-for="(card, idx) in list" :key="`card${idx}`" class="mb-3">
+						<template #header>
+							<div class="mx-n2 card-header">
+								<span class="">{{ card.data.title }}</span>
+								<!-- <span> -->
 
-									<span>
-										<font-awesome-icon :icon="['fas', 'fa-music']"></font-awesome-icon>
-									</span>
-									<!-- </span> -->
-								</div>
-							</template>
-							{{ card.data.id }}
+								<span>
+									<font-awesome-icon :icon="['fas', 'fa-music']"></font-awesome-icon>
+								</span>
+								<!-- </span> -->
+							</div>
+						</template>
+						{{ card.data.id }}
 
-							<ElDivider class="w-50 my-0" style="margin: 0px; margin-left: -20px; width: calc(100% + 40px)"></ElDivider>
+						<ElDivider class="w-50 my-0" style="margin: 0px; margin-left: -20px; width: calc(100% + 40px)"></ElDivider>
 
-							123
-						</ElCard>
-					</div>
+						123
+					</ElCard>
 				</div>
 			</div>
-			<!-- <span class="mx-n2 card-header">123555555555555555555555555555555555555555555555555555555</span> -->
-		</ElCard>
-
-		<ElCard v-else> // </ElCard>
-
-		<!-- <ElInput v-model="searchSong" class="radius" style="border-radius: 20px"></ElInput>
-
-		<div class="radius" style="border-radius: 20px; border: 1px solid red">
-			<ElInput v-model="searchArtist" class="radius" style="border: 1px solid red"></ElInput>
 		</div>
-
-		<ElButton @click="getLyrics">搜尋</ElButton> -->
-	</div>
+		<!-- <span class="mx-n2 card-header">123555555555555555555555555555555555555555555555555555555</span> -->
+	</ElCard>
+	<ElCard v-else> // </ElCard>
 </template>
 
 <script setup lang="ts">
 	import { SearchLyrcisDto, SearchLyricsResponseDto } from '@/types/search';
+	// 改 vue-virtual-scroller
 	import { useVirtualList } from '@vueuse/core';
 
+	const webWidth: number = inject('webWidth', window.innerWidth);
 	const webHeight: number = inject('webHeight', window.innerHeight);
-	const searchTitle = ref('怪物');
-	const searchArtist = ref('YOASOBI');
-	const canSearch = computed(() => searchTitle.value != '' || searchArtist.value != '' || process.env.NODE_ENV == 'development_dep');
+	const searchTitle = ref('');
+	const searchArtist = ref('');
+	const canSearch = computed(() => searchTitle.value != '' || searchArtist.value != '' || process.env.NODE_ENV == 'development');
 
+	/**歌詞搜尋結果 */
 	const lyricsCards = ref(new Array<SearchLyricsResponseDto>());
 	// const lyricCards = ref(Array<LyricsCrawled>());
+
+	onMounted(() => {
+		// console.log(webHeight);
+	});
 
 	const getLyrics = (title?: string, artist?: string) => {
 		const param: SearchLyrcisDto = {
@@ -107,20 +101,21 @@
 		console.log(searchTitle.value, searchArtist.value);
 	};
 
-	// const filterItems = computed(() => {
-	// 	return props.cardList;
-	// });
-	// const { list, containerProps, wrapperProps } = useVirtualList(filterItems, {
-	// 	itemHeight: 80,
-	// 	overscan: 10
-	// });
-
 	onMounted(() => {
-		console.log(process.env.NODE_ENV);
+		// console.log(process.env.NODE_ENV);
 	});
 </script>
 
 <style lang="scss" scoped>
+	.span-center {
+		position: absolute;
+		text-align: center;
+		top: 50%;
+		margin: 0 auto;
+		left: 0;
+		right: 0;
+	}
+
 	.history-tag {
 		position: relative;
 		cursor: pointer;

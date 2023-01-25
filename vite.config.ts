@@ -105,13 +105,26 @@ export default defineConfig({
 				rewrite: (path) => path.replace(/^\/api/, '')
 			}
 		}
-	}
+	},
 
-	// css: {
-	// 	preprocessorOptions: {
-	// 		scss: {
-	// 			// additionalData: '@import "@/assets/scss/stylesheet.scss";'
+	// optimizeDeps: {
+	// 	esbuildOptions: {
+	// 		// Node.js global to browser globalThis
+	// 		define: {
+	// 			global: 'global'
 	// 		}
 	// 	}
+	// // }
+
+	// define: {
+	// 	global: 'global'
 	// }
+
+	css: {
+		preprocessorOptions: {
+			scss: {
+				// additionalData: '@use "@/styles/_custom.scss" as *;'
+			}
+		}
+	}
 });

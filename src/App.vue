@@ -4,7 +4,8 @@
 	<!-- <div style="width: 100%; border: 1px solid red"> -->
 	<ElContainer class="main-container" direction="vertical">
 		<ElHeader class="appbar" :height="`${appbarHeight}px`">
-			<ElRow justify="end">
+			<ElRow justify="end" align="middle">
+				<span v-if="isDev" class="mx-auto" style="color: red; font-weight: bold">{{ appbarHeight }}</span>
 				<ElButton color="transparent">
 					<font-awesome-icon icon="fa-solid fa-window-minimize" size="lg"></font-awesome-icon>
 				</ElButton>
@@ -15,7 +16,6 @@
 				<ElButton color="transparent">
 					<font-awesome-icon icon="fa-solid fa-xmark" size="lg"></font-awesome-icon>
 				</ElButton>
-
 				<!-- <el-button>Default</el-button> -->
 			</ElRow>
 		</ElHeader>
@@ -26,7 +26,7 @@
 				<ElMenu defaultActive="/" :collapse="true" backgroundColor="transparent" router style="height: 100%">
 					<ElMenuItem v-for="(r, index) in routes" :key="`${r.meta?.title}-${index}`" class="nav-item" :index="r.path">
 						<ElIcon size="16">
-							<font-awesome-icon :icon="r.meta?.icon" size="md"></font-awesome-icon>
+							<font-awesome-icon :icon="r.meta?.icon"></font-awesome-icon>
 						</ElIcon>
 						<template #title>{{ r.meta?.title }}</template>
 					</ElMenuItem>
@@ -46,14 +46,16 @@
 		</ElContainer>
 
 		<ElFooter class="app-footer" :height="`${footerHeight}px`">
-			<ElRow align="middle" style="height: 100%">
-				<ElCol v-if="isDev" class="text-right footer-info">
+			<ElRow justify="end" align="middle" style="height: 100%">
+				<span v-if="isDev" class="mx-auto" style="color: red; font-weight: bold">{{ footerHeight }}</span>
+
+				<ElCol v-if="isDev" :span="3" class="text-right footer-info">
 					<span>Resolution:</span>
 					<span>{{ webWidth }}</span>
 					<span class="x">x</span>
 					<span>{{ webHeight }}</span>
 				</ElCol>
-				<ElCol v-else class="text-right" style="margin-left: auto">
+				<ElCol v-else :span="3" class="text-right" style="margin-left: auto">
 					&copy; {{ new Date().getFullYear() }}
 					<strong> Elecrawler </strong>
 				</ElCol>
@@ -115,11 +117,17 @@
 
 	// const input = ref('');
 	const isDev = computed(() => {
-		return process.env.NODE_ENV === 'development';
+		return import.meta.env.DEV;
 	});
 
+	provide('webWidth', webWidth);
+	provide('webHeight', webHeight);
+
 	onMounted(() => {
-		console.log(routes);
+		window.addEventListener('resize', () => {
+			webHeight.value = window.innerHeight;
+			webWidth.value = window.innerWidth;
+		});
 	});
 </script>
 
@@ -149,8 +157,6 @@
 
 	.nav-item {
 		background-color: transparent;
-		// margin: 0 -20px;
-		// text-align: center;
 	}
 
 	.app-footer {
