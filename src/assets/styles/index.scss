@@ -1,12 +1,30 @@
+@import 'color';
 @import 'layout';
 @import 'override';
+@import 'lyrics';
+// @import ''
+// @import 'element-plus/theme-chalk/src/dark/css-vars.scss';
 
 :root {
-	--info-color: #409eff;
-	--success-color: #67c23a;
-	--warngin-color: #e6a23c;
-	--error-color: #f56c6c;
-	--secondary-color: #909399;
+	--color-red: #f44336;
+	--color-pink: #e91e63;
+	--color-purple: #9c27b0;
+	--color-deep-purple: #673ab7;
+	--color-indigo: #3f51b5;
+	--color-blue: #2196f3;
+	--color-light-blue: #03a9f4;
+	--color-cyan: #00bcd4;
+	--color-teal: #009688;
+	--color-green: #4caf50;
+	--color-light-green: #8bc34a;
+	--color-lime: #cddc39;
+	--color-yellow: #ffeb3b;
+	--color-amber: #ffc107;
+	--color-orange: #ff9800;
+	--color-deep-orange: #ff5722;
+	--color-brown: #795548;
+	--color-blue-grey: #607d8b;
+	--color-grey: #9e9e9e;
 }
 
 html,
@@ -37,6 +55,53 @@ $tAlign: left, center, right;
 
 	.opa-#{($i * 25)} {
 		opacity: ($i * 0.25);
+	}
+}
+
+.complex-icon {
+	position: relative;
+	span {
+		svg + svg {
+			position: absolute;
+			bottom: 10%;
+			right: 10%;
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+			color: var(--el-color-success);
+			background-color: var(--el-bg-color-overlay);
+		}
+	}
+}
+
+div.complex-icon {
+	display: inline-flex;
+	position: relative;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+
+	span {
+		svg + svg {
+			position: absolute;
+			bottom: 10%;
+			right: 10%;
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+			// color: var(--el-color-success);
+			background-color: var(--el-bg-color-overlay);
+
+			&.success {
+				color: var(--el-color-success);
+			}
+
+			&.error {
+				color: var(--el-color-error);
+			}
+		}
 	}
 }
 
@@ -102,7 +167,7 @@ $tAlign: left, center, right;
 		}
 
 		&.scroll-darken::-webkit-scrollbar-thumb {
-			box-shadow: inset 0 0 10px rgb(180 150 187 / 75%);
+			box-shadow: inset 0 0 10px rgb(180 120 187 / 75%);
 		}
 	}
 
@@ -112,7 +177,7 @@ $tAlign: left, center, right;
 		}
 
 		&.scroll-darken::-webkit-scrollbar-thumb {
-			box-shadow: inset 0 0 10px rgb(150 35 35 / 75%);
+			box-shadow: inset 0 0 10px rgb(120 35 35 / 75%);
 		}
 	}
 
@@ -122,7 +187,7 @@ $tAlign: left, center, right;
 		}
 
 		&.scroll-darken::-webkit-scrollbar-thumb {
-			box-shadow: inset 0 0 10px rgb(35 150 35 / 75%);
+			box-shadow: inset 0 0 10px rgb(35 120 35 / 75%);
 		}
 	}
 

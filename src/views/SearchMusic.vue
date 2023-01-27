@@ -52,11 +52,28 @@
 
 <style lang="scss" scoped>
 	.left-col {
-		min-width: 360px;
+		min-width: 416px;
 		flex: 0 0 25%;
 	}
 
 	.right-col {
 		flex: 1 1;
+	}
+
+	$types: primary, success, warning, error;
+	@each $type in $types {
+		:deep(.el-button.#{$type}) {
+			--el-button-hover-text-color: var(--el-color-#{$type});
+			--el-button-hover-border-color: var(--el-color-#{$type});
+		}
+
+		:deep(.el-input.#{$type}) {
+			--el-input-focus-border-color: var(--el-color-#{$type});
+
+			.el-input-group__append,
+			.el-input-group__prepend {
+				color: var(--el-color-#{$type});
+			}
+		}
 	}
 </style>

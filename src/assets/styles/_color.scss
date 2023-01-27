@@ -1,0 +1,28 @@
+// comment next lines to use default color
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+	// do not use same name, it will override.
+	$colors:
+		(
+			'primary': (
+				'base': #2196f3
+			),
+			'success': (
+				'base': #4caf50
+			),
+			'warning': (
+				'base': #ffc107
+			),
+			'danger': (
+				'base': #f44336
+			),
+			'error': (
+				'base': #f44336
+			),
+			'info': (
+				'base': #00bcd4
+			)
+		)
+);
+
+// if you want to import all
+@use 'element-plus/theme-chalk/src/dark/css-vars.scss' as *;

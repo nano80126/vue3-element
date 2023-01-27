@@ -1,0 +1,29 @@
+span.ruby {
+	// font-family: 'メイリオ', 'ヒラギノ角ゴ Pro W3', 'ＭＳ Ｐゴシック', sans-serif;
+	// margin-bottom: 0.55em;
+	display: inline-table;
+	position: relative;
+	vertical-align: bottom;
+}
+
+span.ruby span.rb {
+	display: table-row;
+	position: relative;
+	line-height: 1.2;
+	font-size: 16px;
+	font-weight: bold;
+	// text-decoration: underline;
+	// font-weight: 700;
+	// letter-spacing: 1px;
+}
+
+span.ruby span.rt {
+	display: table-header-group;
+	line-height: 1.8;
+	font-size: 9px;
+	// color: red;
+	white-space: nowrap;
+	text-align: center;
+	letter-spacing: -0.001em;
+	opacity: 0.64;
+}

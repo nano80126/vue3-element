@@ -102,10 +102,6 @@
 </template>
 
 <script setup lang="ts">
-	// import { ref, onMounted } from 'vue';
-	// import { ElAside } from 'element-plus';
-	import { Document, Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue';
-
 	import { routes } from '@/router';
 
 	const appbarHeight = 32;
@@ -143,7 +139,7 @@
 
 	.appbar {
 		padding: 0;
-		background-color: var(--el-color-info-dark-2);
+		background-color: #424242;
 
 		button {
 			// margin-left: 0;
@@ -161,7 +157,8 @@
 
 	.app-footer {
 		padding: 0 12px;
-		background-color: var(--el-color-info-light-5);
+		// background-color: var(--el-color-info-light-5);
+		background-color: #37474f;
 
 		.footer-info {
 			> span.x {

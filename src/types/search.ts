@@ -1,19 +1,24 @@
-/**搜尋歌詞列表 REQ DTO */
+import { type } from "os";
+
+/**搜尋歌詞列表 Request DTO */
 export interface SearchLyrcisDto {
 	artist: string;
 	title: string;
 }
 
-/**搜尋歌詞列表 REP DTO */
-export interface SearchLyricsResponseDto extends SearchLyrcisDto {
+/**搜尋歌詞列表 Response Item DTO */
+export interface SearchLyricsItemResponseDto extends SearchLyrcisDto {
 	id: number;
 	lyricsUrl: string;
 	lyricsID: string;
 	lyricsShort: string;
 }
 
-/**歌詞爬蟲 REQ DTO */
-export interface CrawlLyricsResponseDto {
+/**搜尋歌詞列表 Response List DTO */
+export type SearchLyricsListResponseDto = SearchLyricsItemResponseDto[];
+
+/**歌詞爬蟲 Response DTO */
+export interface SearchLyricsContentResponseDto extends SearchLyrcisDto {
 	artist: string;
 	title: string;
 	lyricsID: string;
@@ -52,7 +57,9 @@ export interface YouTubeSearchListResponseItemDto {
     snippet: SnippetDto;
 }
 
-/** */
+/**
+ * @deprecated use "@googleapis/youtube" instead
+ */
 export interface YouTubeSearchListResponseDto {
     kind : string;
     etag : string;
