@@ -1,7 +1,22 @@
 <template>
+	<!-- #region tab -->
+	<ElRow class="mb-3">
+		<ElButtonGroup class="ml-auto toggle">
+			<ElButton class="complex-icon success" :class="{ 'high-light': panel == 'search' }" @click="panel = 'search'" round>
+				<font-awesome-icon :icon="['fas', 'fa-rectangle-list']"></font-awesome-icon>
+				<font-awesome-icon :icon="['fas', 'fa-magnifying-glass']" size="xs"></font-awesome-icon>
+			</ElButton>
+
+			<ElButton class="complex-icon success" :class="{ 'high-light': panel == 'lyrics' }" @click="panel = 'lyrics'" :disabled="lyrcisContent == undefined" round>
+				<font-awesome-icon :icon="['fas', 'fa-rectangle-list']"></font-awesome-icon>
+				<font-awesome-icon :icon="['fas', 'fa-check']" size="xs"></font-awesome-icon>
+			</ElButton>
+		</ElButtonGroup>
+	</ElRow>
+	<!-- #endregion -->
 	<Transition name="flip" mode="out-in">
 		<!-- #region first -->
-		<ElCard v-if="flip" class="px-0" :style="{ height: `${webHeight - 128}px` }" style="position: relative">
+		<ElCard v-if="showSearchPanel" class="px-0" :style="{ height: `${webHeight - 124}px` }" style="position: relative">
 			<ElRow class="" :gutter="0" justify="start" align="middle">
 				<ElInput v-model="searchTitle" class="el-col success" placeholder="曲名" @keyup.enter="searchLyricsList($event)">
 					<template #prefix>
@@ -32,14 +47,14 @@
 				<ElCol class="mt-3" :span="24">
 					<Transition name="fade">
 						<div v-if="lyricsCards && lyricsCards.length > 0">
-							<!-- height = web height - (128 + 106) -->
-							<RecycleScroller
+							<!-- height = web height - (124 + 106) -->
+							<recycle-scroller
 								class="min-scroll success-scroll scroll-darken"
 								:items="lyricsCards"
 								:item-size="142"
 								key-field="id"
 								v-slot="{ item }"
-								:style="{ height: `${webHeight - 234}px` }"
+								:style="{ height: `${webHeight - 230}px` }"
 								style="overflow-y: scroll"
 							>
 								<ElCard class="lyrics-list-card" shadow="never">
@@ -61,7 +76,10 @@
 									</template>
 
 									<ElRow class="body" :gutter="0" align="middle">
-										<ElButton round @click="searchLyricsContent($event, item.lyricsID)"> {{ item.lyricsID }} </ElButton>
+										<ElButton round @click="searchLyricsContent($event, item.lyricsID)">
+											<font-awesome-icon :icon="['fas', 'fa-link']"></font-awesome-icon>
+											<span class="ml-3">鏈結</span>
+										</ElButton>
 
 										<ElTooltip placement="top" effect="light" :hide-after="50">
 											<template #content>
@@ -75,7 +93,7 @@
 										</ElTooltip>
 									</ElRow>
 								</ElCard>
-							</RecycleScroller>
+							</recycle-scroller>
 						</div>
 					</Transition>
 				</ElCol>
@@ -83,13 +101,7 @@
 		</ElCard>
 		<!-- #endregion -->
 		<!-- #region Second -->
-		<ElCard v-else class="px-0" :style="{ height: `${webHeight - 128}px` }" style="position: relative">
-			<ElButton class="" circle>
-				<font-awesome-icon :icon="['fas', 'fa-arrow-left']"></font-awesome-icon>
-			</ElButton>
-
-			<ElDivider style="margin-top: 12px"></ElDivider>
-
+		<ElCard v-else class="px-0" style="position: relative" :style="{ height: `${webHeight - 128}px` }">
 			<ElRow class="lyrics-content-header" :gutter="0" align="middle" justify="start">
 				<ElCol :span="22" class="title">{{ lyrcisContent?.title || '456' }}</ElCol>
 				<ElCol :span="2" class="action">
@@ -107,14 +119,13 @@
 
 			<ElDivider style="margin: 12px -12px; width: calc(100% + 24px)"></ElDivider>
 
-			<div class="min-scroll success-scroll" style="overflow-y: scroll; height: 600px; color: var(--color-teal)">
-				<div v-html="lyrcisContent?.lyricsContent"></div>
+			<div class="scroll min-scroll success-scroll" style="position: relative; overflow-y: auto; color: var(--color-teal)" :style="{ height: `${webHeight - 229}px` }">
+				<div class="pb-10" v-html="lyrcisContent?.lyricsContent"></div>
+				<span class="w-100 text-center" style="display: block; color: grey">- End -</span>
 			</div>
 		</ElCard>
 		<!-- #endregion -->
 	</Transition>
-
-	<ElButton class="mt-3 w-100" @click="flip = !flip">FLIP</ElButton>
 </template>
 
 <script setup lang="ts">
@@ -138,17 +149,17 @@
 	const searchRecords: Ref<SearchLyrcisDto[]> = ref([]);
 	/**是否顯示歌詞內容 */
 	const showLyricsContent = ref(false);
+	/** */
+	const panel: Ref<'search' | 'lyrics'> = ref('search');
 	// #endregion
-
-	const flip = ref(true);
 
 	onMounted(() => {
 		// console.log(webHeight);
 		loadSearchRecord();
 	});
 
-	const showLyricsPanel = computed(() => {
-		return lyrcisContent.value && showLyricsContent.value;
+	const showSearchPanel = computed(() => {
+		return panel.value == 'search' || lyrcisContent.value == undefined;
 	});
 
 	const loadSearchRecord = () => {
@@ -160,10 +171,11 @@
 		await nextTick();
 
 		axios
-			.get<SearchLyricsListResponseDto>('http://localhost:8888/api/lyrics', {
+			.get<SearchLyricsListResponseDto>('http://localhost:8888/api/search', {
 				responseType: 'json',
 				responseEncoding: 'utf8',
 				params: {
+					type: 'lyrics',
 					title: title || searchTitle.value,
 					artist: artist || searchArtist.value
 				}
@@ -178,8 +190,8 @@
 	};
 
 	const searchLyricsContent = async (event: Event, lyricsID: string) => {
-		//
-
+		lyrcisContent.value = undefined;
+		await nextTick();
 		axios
 			.get<SearchLyricsContentResponseDto>(`http://localhost:8888/api/lyrics/${lyricsID}`, {
 				responseType: 'json',
@@ -189,6 +201,7 @@
 				console.log(res);
 				lyrcisContent.value = res.data;
 				showLyricsContent.value = lyrcisContent ? true : false;
+				panel.value = 'lyrics';
 			})
 			.finally(() => {
 				//
@@ -197,6 +210,24 @@
 </script>
 
 <style lang="scss" scoped>
+	.el-button-group.toggle {
+		.el-button:first-child,
+		.el-button:last-child {
+			--el-button-hover-text-color: rgba(255, 255, 255, 0.84);
+			--el-button-hover-border-color: rgba(255, 255, 255, 0.84);
+			--el-button-active-text-color: rgba(255, 255, 255, 0.84);
+			--el-button-active-border-color: rgba(255, 255, 255, 0.36);
+
+			&.high-light {
+				--el-button-hover-text-color: var(--color-blue);
+				--el-button-active-text-color: var(--color-blue);
+				--el-button-text-color: var(--color-blue);
+				--el-button-hover-border-color: var(--color-blue);
+				--el-button-active-border-color: var(--color-blue);
+			}
+		}
+	}
+
 	.history-tag {
 		position: relative;
 		cursor: pointer;
@@ -306,7 +337,7 @@
 	// #region animate
 	.flip-enter-active,
 	.flip-leave-active {
-		transition: all 0.5s ease;
+		transition: all 0.25s linear;
 	}
 
 	.flip-enter-from,

@@ -63,8 +63,11 @@
 	$types: primary, success, warning, error;
 	@each $type in $types {
 		:deep(.el-button.#{$type}) {
-			--el-button-hover-text-color: var(--el-color-#{$type});
-			--el-button-hover-border-color: var(--el-color-#{$type});
+			&:not(.complex-icon),
+			&:not(.compose-icon) {
+				--el-button-hover-text-color: var(--el-color-#{$type});
+				--el-button-hover-border-color: var(--el-color-#{$type});
+			}
 		}
 
 		:deep(.el-input.#{$type}) {

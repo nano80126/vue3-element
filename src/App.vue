@@ -1,22 +1,17 @@
 <template>
-	<!-- <div style="width: 1920px; position: relative; min-height: 200px; border: 1px solid blue"></div> -->
-
-	<!-- <div style="width: 100%; border: 1px solid red"> -->
 	<ElContainer class="main-container" direction="vertical">
 		<ElHeader class="appbar" :height="`${appbarHeight}px`">
 			<ElRow justify="end" align="middle">
-				<span v-if="isDev" class="mx-auto" style="color: red; font-weight: bold">{{ appbarHeight }}</span>
+				<!-- <span v-if="isDev" class="mx-auto" style="color: red; font-weight: bold">{{ appbarHeight }}</span> -->
 				<ElButton color="transparent">
 					<font-awesome-icon icon="fa-solid fa-window-minimize" size="lg"></font-awesome-icon>
 				</ElButton>
-
 				<ElButton color="transparent">
 					<font-awesome-icon icon="fa-regular fa-window-maximize" size="lg"></font-awesome-icon>
 				</ElButton>
 				<ElButton color="transparent">
 					<font-awesome-icon icon="fa-solid fa-xmark" size="lg"></font-awesome-icon>
 				</ElButton>
-				<!-- <el-button>Default</el-button> -->
 			</ElRow>
 		</ElHeader>
 
@@ -47,8 +42,7 @@
 
 		<ElFooter class="app-footer" :height="`${footerHeight}px`">
 			<ElRow justify="end" align="middle" style="height: 100%">
-				<span v-if="isDev" class="mx-auto" style="color: red; font-weight: bold">{{ footerHeight }}</span>
-
+				<!-- <span v-if="isDev" class="mx-auto" style="color: red; font-weight: bold">{{ footerHeight }}</span> -->
 				<ElCol v-if="isDev" :span="3" class="text-right footer-info">
 					<span>Resolution:</span>
 					<span>{{ webWidth }}</span>

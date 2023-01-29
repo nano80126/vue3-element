@@ -35,6 +35,7 @@ body {
 	font-family: consolas, '微軟正黑體', Helvetica, Arial, 'LiHei Pro', '黑體-繁', sans-serif;
 	user-select: none;
 	// min-width: 1600px;
+	overflow-y: hidden;
 }
 
 $tAlign: left, center, right;
@@ -58,19 +59,50 @@ $tAlign: left, center, right;
 	}
 }
 
-.complex-icon {
+button.complex-icon {
 	position: relative;
-	span {
-		svg + svg {
-			position: absolute;
-			bottom: 10%;
-			right: 10%;
-			width: 10px;
-			height: 10px;
-			border-radius: 50%;
-			color: var(--el-color-success);
-			background-color: var(--el-bg-color-overlay);
-		}
+
+	span svg + svg {
+		position: absolute;
+		bottom: 10%;
+		right: 20%;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background-color: var(--el-bg-color-overlay);
+	}
+
+	&.is-circle span svg + svg {
+		bottom: 10%;
+		right: 10%;
+	}
+
+	&.success span svg + svg {
+		color: var(--el-color-success);
+	}
+
+	&.warning span svg + svg {
+		color: var(--el-color-warning);
+	}
+
+	&.error span svg + svg {
+		color: var(--el-color-error);
+	}
+
+	&.is-disabled span svg + svg {
+		color: var(--el-button-disabled-text-color);
+	}
+}
+
+button.compose-icon {
+	position: relative;
+
+	span svg + svg {
+		position: absolute;
+		margin: auto;
+		left: 0;
+		right: 0;
+		color: var(--el-bg-color-overlay);
 	}
 }
 
@@ -91,7 +123,6 @@ div.complex-icon {
 			width: 10px;
 			height: 10px;
 			border-radius: 50%;
-			// color: var(--el-color-success);
 			background-color: var(--el-bg-color-overlay);
 
 			&.success {

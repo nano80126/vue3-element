@@ -29,7 +29,7 @@
 			<ElCol class="mt-3" :span="24">
 				<Transition :name="fadeDir == 'left' ? 'fadeLeft' : 'fadeRight'">
 					<div v-if="searchResults && searchResults.length > 0">
-						<RecycleScroller class="min-scroll info-scroll" :items="searchResults" :item-size="218" key-field="etag" v-slot="{ item }" :style="{ height: `${webHeight - 163}px` }">
+						<recycle-scroller class="min-scroll info-scroll" :items="searchResults" :item-size="218" key-field="etag" v-slot="{ item }" :style="{ height: `${webHeight - 163}px` }">
 							<ElCard class="youtube-card radius" shadow="never">
 								<ElRow :gutter="12" align="top" justify="center">
 									<ElCol class="card-image" :span="9">
@@ -51,13 +51,13 @@
 												</ElTag>
 											</ElTooltip>
 
-											<!-- <ElTooltip content="取得鏈結" placement="top" effect="light">
-										<ElTag round type="success">
-											<font-awesome-icon :icon="['fas', 'fa-list']"></font-awesome-icon>
-										</ElTag>
-									</ElTooltip> -->
-
-											<!-- <ElDivider direction="vertical"></ElDivider> -->
+											<!-- 
+                                            <ElTooltip content="取得鏈結" placement="top" effect="light">
+                                                <ElTag round type="success">
+                                                    <font-awesome-icon :icon="['fas', 'fa-list']"></font-awesome-icon>
+                                                </ElTag>
+                                            </ElTooltip>
+                                            -->
 
 											<ElTooltip content="取得鏈結" placement="top" effect="light">
 												<ElButton circle style="margin-left: auto">
@@ -72,7 +72,7 @@
 											</ElTooltip>
 
 											<ElTooltip content="123" placement="top" effect="light">
-												<ElButton class="complex-icon" circle>
+												<ElButton class="complex-icon success" circle>
 													<font-awesome-icon :icon="['fas', 'fa-list']"></font-awesome-icon>
 													<font-awesome-icon :icon="['fas', 'fa-plus']" size="xs"></font-awesome-icon>
 												</ElButton>
@@ -81,7 +81,7 @@
 									</ElCol>
 								</ElRow>
 							</ElCard>
-						</RecycleScroller>
+						</recycle-scroller>
 					</div>
 				</Transition>
 			</ElCol>
