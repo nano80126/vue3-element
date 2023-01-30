@@ -15,7 +15,7 @@ export const routes: IRoute[] = [
 	{
 		path: '/',
 		name: 'search',
-		component: () => import('@/views/SearchMusic.vue'),
+		component: () => import('@/views/search/SearchIndex.vue'),
 		meta: {
 			title: 'search',
 			icon: ['fab', 'fa-chrome'],

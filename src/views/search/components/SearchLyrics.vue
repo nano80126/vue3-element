@@ -2,12 +2,16 @@
 	<!-- #region tab -->
 	<ElRow class="mb-3">
 		<ElButtonGroup class="ml-auto toggle">
-			<ElButton class="complex-icon success" :class="{ 'high-light': panel == 'search' }" @click="panel = 'search'" round>
-				<font-awesome-icon :icon="['fas', 'fa-rectangle-list']"></font-awesome-icon>
-				<font-awesome-icon :icon="['fas', 'fa-magnifying-glass']" size="xs"></font-awesome-icon>
+			<ElButton class="success" :class="{ 'high-light': panel == 'search' }" @click="panel = 'search'" round>
+				<template #icon>
+					<div class="complex-icon success">
+						<font-awesome-icon :icon="['fas', 'fa-rectangle-list']"></font-awesome-icon>
+						<font-awesome-icon class="success" :icon="['fas', 'fa-magnifying-glass']" size="xs"></font-awesome-icon>
+					</div>
+				</template>
 			</ElButton>
 
-			<ElButton class="complex-icon success" :class="{ 'high-light': panel == 'lyrics' }" @click="panel = 'lyrics'" :disabled="lyrcisContent == undefined" round>
+			<ElButton class="complex-icon success" :class="{ 'high-light': panel == 'lyrics' }" @click="panel = 'lyrics'" :disabled="lyrcisContent == undefined && false" round>
 				<font-awesome-icon :icon="['fas', 'fa-rectangle-list']"></font-awesome-icon>
 				<font-awesome-icon :icon="['fas', 'fa-check']" size="xs"></font-awesome-icon>
 			</ElButton>
@@ -103,7 +107,7 @@
 		<!-- #region Second -->
 		<ElCard v-else class="px-0" style="position: relative" :style="{ height: `${webHeight - 128}px` }">
 			<ElRow class="lyrics-content-header" :gutter="0" align="middle" justify="start">
-				<ElCol :span="22" class="title">{{ lyrcisContent?.title || '456' }}</ElCol>
+				<ElCol :span="22" class="title">{{ lyrcisContent?.title || 'N/A' }}</ElCol>
 				<ElCol :span="2" class="action">
 					<ElButton circle>
 						<font-awesome-icon :icon="['fas', 'fa-plus']"></font-awesome-icon>
@@ -112,7 +116,7 @@
 
 				<ElCol :span="24" class="subtitle">
 					<small>
-						{{ lyrcisContent?.artist || 122 }}
+						{{ lyrcisContent?.artist || 'N/A' }}
 					</small>
 				</ElCol>
 			</ElRow>
@@ -159,7 +163,8 @@
 	});
 
 	const showSearchPanel = computed(() => {
-		return panel.value == 'search' || lyrcisContent.value == undefined;
+		return panel.value == 'search';
+		// return panel.value == 'search' || lyrcisContent.value == undefined;
 	});
 
 	const loadSearchRecord = () => {

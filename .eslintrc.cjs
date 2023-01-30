@@ -32,6 +32,7 @@ module.exports = {
 	rules: {
 		'no-console': process.env.NODE_ENV === 'production' ? ['error', { allow: ['error', 'warn'] }] : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
+		// 'vue/valid-template-root': 0
 		// 'prettier/prettier': 1
 		// indent: ['error', 4]
 

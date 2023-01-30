@@ -2,7 +2,7 @@
 	<div class="">
 		<ElRow :gutter="12" justify="center">
 			<ElCol class="left-col" style="background-color: #33559900">
-				<SearchCards />
+				<SearchLyrics />
 			</ElCol>
 			<ElCol class="right-col" style="background-color: #33998800">
 				<SearchBrowser />
@@ -12,11 +12,11 @@
 </template>
 
 <script setup lang="ts">
+	import SearchLyrics from './components/SearchLyrics.vue';
+	import SearchBrowser from './components/SearchBrowser.vue';
+
 	onMounted(() => {
 		// axios.get('http://localhost:8888/api/listCards/1').then((res) => {
-		// 	console.log(res);
-		// });
-		// axios.get('http://localhost:8888/api/ping/1?text=123').then((res) => {
 		// 	console.log(res);
 		// });
 	});
