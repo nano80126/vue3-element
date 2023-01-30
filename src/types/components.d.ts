@@ -28,5 +28,6 @@ declare module '@vue/runtime-core' {
     HelloWorld: typeof import('./../components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    VComplexIcon: typeof import('./../components/VComplexIcon.vue')['default']
   }
 }

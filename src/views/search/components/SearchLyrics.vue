@@ -1,19 +1,30 @@
 <template>
 	<!-- #region tab -->
 	<ElRow class="mb-3">
+		<VComplexIcon :main-icon="['fas', 'fa-rectangle-list']" :sub-icon="['fas', 'fa-check']" type="error"></VComplexIcon>
+
+		<ElButton circle>
+			<template #icon>
+				<VComplexIcon :main-icon="['fas', 'fa-rectangle-list']" :sub-icon="['fas', 'fa-check']" type="error"></VComplexIcon>
+			</template>
+		</ElButton>
+
 		<ElButtonGroup class="ml-auto toggle">
 			<ElButton class="success" :class="{ 'high-light': panel == 'search' }" @click="panel = 'search'" round>
 				<template #icon>
-					<div class="complex-icon success">
-						<font-awesome-icon :icon="['fas', 'fa-rectangle-list']"></font-awesome-icon>
-						<font-awesome-icon class="success" :icon="['fas', 'fa-magnifying-glass']" size="xs"></font-awesome-icon>
-					</div>
+					<!-- <div class="complex-icon"> -->
+					<!-- <font-awesome-icon :icon="['fas', 'fa-rectangle-list']"></font-awesome-icon>
+					<font-awesome-icon class="error" :icon="['fas', 'fa-magnifying-glass']" size="xs"></font-awesome-icon> -->
+					<!-- </div> -->
+
+					<VComplexIcon :main-icon="['fas', 'fa-rectangle-list']" :sub-icon="['fas', 'fa-check']" type="error"></VComplexIcon>
 				</template>
 			</ElButton>
 
-			<ElButton class="complex-icon success" :class="{ 'high-light': panel == 'lyrics' }" @click="panel = 'lyrics'" :disabled="lyrcisContent == undefined && false" round>
-				<font-awesome-icon :icon="['fas', 'fa-rectangle-list']"></font-awesome-icon>
-				<font-awesome-icon :icon="['fas', 'fa-check']" size="xs"></font-awesome-icon>
+			<ElButton class="" :class="{ 'high-light': panel == 'lyrics' }" @click="panel = 'lyrics'" :disabled="lyrcisContent == undefined && false" round>
+				<template #icon>
+					<VComplexIcon :main-icon="['fas', 'fa-rectangle-list']" :sub-icon="['fas', 'fa-check']" type="success"></VComplexIcon>
+				</template>
 			</ElButton>
 		</ElButtonGroup>
 	</ElRow>
@@ -176,7 +187,7 @@
 		await nextTick();
 
 		axios
-			.get<SearchLyricsListResponseDto>('http://localhost:8888/api/search', {
+			.get<SearchLyricsListResponseDto>('http://localhost:8888/api/lyrics', {
 				responseType: 'json',
 				responseEncoding: 'utf8',
 				params: {

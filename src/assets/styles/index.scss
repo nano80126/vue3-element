@@ -106,7 +106,7 @@ button.compose-icon {
 	}
 }
 
-div.complex-icon {
+div.complex-icon1 {
 	display: flex;
 	position: relative;
 	align-items: center;
@@ -115,26 +115,6 @@ div.complex-icon {
 	height: 32px;
 	border-radius: 50%;
 	background-color: red;
-
-	// span {
-	// 	svg + svg {
-	// 		position: absolute;
-	// 		bottom: 10%;
-	// 		right: 10%;
-	// 		width: 10px;
-	// 		height: 10px;
-	// 		border-radius: 50%;
-	// 		background-color: var(--el-bg-color-overlay);
-
-	// 		&.success {
-	// 			color: var(--el-color-success);
-	// 		}
-
-	// 		&.error {
-	// 			color: var(--el-color-error);
-	// 		}
-	// 	}
-	// }
 
 	svg + svg {
 		position: absolute;
